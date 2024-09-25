@@ -1,0 +1,127 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 750px;
+                 background-color: #222222;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"font": {"color": "white"}, "group": "Executive", "id": "EMP2824", "label": "Liam", "shape": "dot", "title": "Team: Executive\nDivision: Asia Pacific"}, {"font": {"color": "white"}, "group": "Sales", "id": "EMP5012", "label": "Alejandro", "shape": "dot", "title": "Team: Sales\nDivision: Europe"}, {"font": {"color": "white"}, "group": "Sales", "id": "EMP2679", "label": "Nia", "shape": "dot", "title": "Team: Sales\nDivision: Global"}, {"font": {"color": "white"}, "group": "Sales", "id": "EMP7912", "label": "Yuki", "shape": "dot", "title": "Team: Sales\nDivision: North America"}, {"font": {"color": "white"}, "group": "Marketing", "id": "EMP4582", "label": "Alejandro", "shape": "dot", "title": "Team: Marketing\nDivision: Global"}, {"font": {"color": "white"}, "group": "Marketing", "id": "EMP1434", "label": "Freya", "shape": "dot", "title": "Team: Marketing\nDivision: Europe"}, {"font": {"color": "white"}, "group": "Marketing", "id": "EMP4611", "label": "Mateo", "shape": "dot", "title": "Team: Marketing\nDivision: Global"}, {"font": {"color": "white"}, "group": "Engineering", "id": "EMP1106", "label": "Thabo", "shape": "dot", "title": "Team: Engineering\nDivision: Europe"}, {"font": {"color": "white"}, "group": "Engineering", "id": "EMP7924", "label": "Astrid", "shape": "dot", "title": "Team: Engineering\nDivision: Asia Pacific"}, {"font": {"color": "white"}, "group": "Engineering", "id": "EMP4527", "label": "Thabo", "shape": "dot", "title": "Team: Engineering\nDivision: Asia Pacific"}, {"font": {"color": "white"}, "group": "HR", "id": "EMP2519", "label": "Kenji", "shape": "dot", "title": "Team: HR\nDivision: North America"}, {"font": {"color": "white"}, "group": "HR", "id": "EMP6881", "label": "Tariq", "shape": "dot", "title": "Team: HR\nDivision: Global"}, {"font": {"color": "white"}, "group": "HR", "id": "EMP1711", "label": "Hiroshi", "shape": "dot", "title": "Team: HR\nDivision: Latin America"}, {"font": {"color": "white"}, "group": "Finance", "id": "EMP7201", "label": "Zoe", "shape": "dot", "title": "Team: Finance\nDivision: Global"}, {"font": {"color": "white"}, "group": "Finance", "id": "EMP5803", "label": "Xavier", "shape": "dot", "title": "Team: Finance\nDivision: Global"}, {"font": {"color": "white"}, "group": "Finance", "id": "EMP4150", "label": "Mia", "shape": "dot", "title": "Team: Finance\nDivision: North America"}, {"font": {"color": "white"}, "group": "Finance", "id": "EMP5741", "label": "Zoe", "shape": "dot", "title": "Team: Finance\nDivision: Europe"}, {"font": {"color": "white"}, "group": "Engineering", "id": "EMP8428", "label": "Xavier", "shape": "dot", "title": "Team: Engineering\nDivision: Asia Pacific"}, {"font": {"color": "white"}, "group": "Marketing", "id": "EMP4432", "label": "Rahul", "shape": "dot", "title": "Team: Marketing\nDivision: Asia Pacific"}, {"font": {"color": "white"}, "group": "HR", "id": "EMP9751", "label": "Hiroshi", "shape": "dot", "title": "Team: HR\nDivision: Europe"}, {"font": {"color": "white"}, "group": "Engineering", "id": "EMP5422", "label": "Xavier", "shape": "dot", "title": "Team: Engineering\nDivision: Global"}, {"font": {"color": "white"}, "group": "Finance", "id": "EMP1916", "label": "Alejandro", "shape": "dot", "title": "Team: Finance\nDivision: North America"}, {"font": {"color": "white"}, "group": "Engineering", "id": "EMP2084", "label": "Mei", "shape": "dot", "title": "Team: Engineering\nDivision: Global"}, {"font": {"color": "white"}, "group": "Sales", "id": "EMP7482", "label": "Ines", "shape": "dot", "title": "Team: Sales\nDivision: Latin America"}, {"font": {"color": "white"}, "group": "Marketing", "id": "EMP5040", "label": "Soraya", "shape": "dot", "title": "Team: Marketing\nDivision: Global"}, {"font": {"color": "white"}, "group": "Marketing", "id": "EMP7543", "label": "Valentina", "shape": "dot", "title": "Team: Marketing\nDivision: Europe"}, {"font": {"color": "white"}, "group": "HR", "id": "EMP2489", "label": "Thabo", "shape": "dot", "title": "Team: HR\nDivision: North America"}, {"font": {"color": "white"}, "group": "Sales", "id": "EMP7916", "label": "Luca", "shape": "dot", "title": "Team: Sales\nDivision: North America"}, {"font": {"color": "white"}, "group": "Engineering", "id": "EMP9669", "label": "Jamal", "shape": "dot", "title": "Team: Engineering\nDivision: Global"}, {"font": {"color": "white"}, "group": "Finance", "id": "EMP9797", "label": "Thabo", "shape": "dot", "title": "Team: Finance\nDivision: Asia Pacific"}, {"font": {"color": "white"}, "group": "Marketing", "id": "EMP5808", "label": "Zara", "shape": "dot", "title": "Team: Marketing\nDivision: Europe"}, {"font": {"color": "white"}, "group": "Finance", "id": "EMP9201", "label": "Thabo", "shape": "dot", "title": "Team: Finance\nDivision: Europe"}, {"font": {"color": "white"}, "group": "Finance", "id": "EMP9317", "label": "Luca", "shape": "dot", "title": "Team: Finance\nDivision: Europe"}, {"font": {"color": "white"}, "group": "Marketing", "id": "EMP9837", "label": "Emilia", "shape": "dot", "title": "Team: Marketing\nDivision: Global"}, {"font": {"color": "white"}, "group": "HR", "id": "EMP9005", "label": "Liam", "shape": "dot", "title": "Team: HR\nDivision: North America"}, {"font": {"color": "white"}, "group": "Marketing", "id": "EMP1949", "label": "Olga", "shape": "dot", "title": "Team: Marketing\nDivision: Global"}, {"font": {"color": "white"}, "group": "Finance", "id": "EMP2133", "label": "Thabo", "shape": "dot", "title": "Team: Finance\nDivision: Global"}, {"font": {"color": "white"}, "group": "Sales", "id": "EMP3705", "label": "Jamal", "shape": "dot", "title": "Team: Sales\nDivision: Global"}, {"font": {"color": "white"}, "group": "Engineering", "id": "EMP9835", "label": "Thabo", "shape": "dot", "title": "Team: Engineering\nDivision: Europe"}, {"font": {"color": "white"}, "group": "Marketing", "id": "EMP7118", "label": "Mateo", "shape": "dot", "title": "Team: Marketing\nDivision: Global"}, {"font": {"color": "white"}, "group": "Sales", "id": "EMP2049", "label": "Astrid", "shape": "dot", "title": "Team: Sales\nDivision: North America"}, {"font": {"color": "white"}, "group": "HR", "id": "EMP1117", "label": "Raj", "shape": "dot", "title": "Team: HR\nDivision: North America"}, {"font": {"color": "white"}, "group": "Marketing", "id": "EMP9423", "label": "Olga", "shape": "dot", "title": "Team: Marketing\nDivision: Asia Pacific"}, {"font": {"color": "white"}, "group": "Sales", "id": "EMP8744", "label": "Olga", "shape": "dot", "title": "Team: Sales\nDivision: Latin America"}, {"font": {"color": "white"}, "group": "Sales", "id": "EMP2588", "label": "Rahul", "shape": "dot", "title": "Team: Sales\nDivision: Latin America"}, {"font": {"color": "white"}, "group": "Engineering", "id": "EMP8651", "label": "Hiroshi", "shape": "dot", "title": "Team: Engineering\nDivision: North America"}, {"font": {"color": "white"}, "group": "Finance", "id": "EMP1993", "label": "Aaliyah", "shape": "dot", "title": "Team: Finance\nDivision: Asia Pacific"}, {"font": {"color": "white"}, "group": "Sales", "id": "EMP4116", "label": "Sanjay", "shape": "dot", "title": "Team: Sales\nDivision: Latin America"}, {"font": {"color": "white"}, "group": "Engineering", "id": "EMP5563", "label": "Leila", "shape": "dot", "title": "Team: Engineering\nDivision: Europe"}, {"font": {"color": "white"}, "group": "Engineering", "id": "EMP1828", "label": "Ines", "shape": "dot", "title": "Team: Engineering\nDivision: Global"}, {"font": {"color": "white"}, "group": "Sales", "id": "EMP7658", "label": "Chiara", "shape": "dot", "title": "Team: Sales\nDivision: Latin America"}, {"font": {"color": "white"}, "group": "Engineering", "id": "EMP3697", "label": "Kenji", "shape": "dot", "title": "Team: Engineering\nDivision: North America"}, {"font": {"color": "white"}, "group": "Marketing", "id": "EMP5673", "label": "Zara", "shape": "dot", "title": "Team: Marketing\nDivision: Global"}, {"font": {"color": "white"}, "group": "Finance", "id": "EMP3536", "label": "Hassan", "shape": "dot", "title": "Team: Finance\nDivision: Asia Pacific"}, {"font": {"color": "white"}, "group": "HR", "id": "EMP6138", "label": "Sofia", "shape": "dot", "title": "Team: HR\nDivision: North America"}, {"font": {"color": "white"}, "group": "HR", "id": "EMP1931", "label": "Kwesi", "shape": "dot", "title": "Team: HR\nDivision: North America"}, {"font": {"color": "white"}, "group": "HR", "id": "EMP4853", "label": "Aaliyah", "shape": "dot", "title": "Team: HR\nDivision: North America"}, {"font": {"color": "white"}, "group": "HR", "id": "EMP2343", "label": "Magnus", "shape": "dot", "title": "Team: HR\nDivision: Global"}, {"font": {"color": "white"}, "group": "Marketing", "id": "EMP6147", "label": "Olga", "shape": "dot", "title": "Team: Marketing\nDivision: Asia Pacific"}, {"font": {"color": "white"}, "group": "Sales", "id": "EMP8491", "label": "Ravi", "shape": "dot", "title": "Team: Sales\nDivision: North America"}, {"font": {"color": "white"}, "group": "Engineering", "id": "EMP2200", "label": "Sanjay", "shape": "dot", "title": "Team: Engineering\nDivision: Europe"}, {"font": {"color": "white"}, "group": "Marketing", "id": "EMP6718", "label": "Raj", "shape": "dot", "title": "Team: Marketing\nDivision: Europe"}, {"font": {"color": "white"}, "group": "Marketing", "id": "EMP8179", "label": "Sanjay", "shape": "dot", "title": "Team: Marketing\nDivision: Asia Pacific"}, {"font": {"color": "white"}, "group": "Finance", "id": "EMP5905", "label": "Rahul", "shape": "dot", "title": "Team: Finance\nDivision: North America"}, {"font": {"color": "white"}, "group": "Marketing", "id": "EMP2753", "label": "Soraya", "shape": "dot", "title": "Team: Marketing\nDivision: Global"}, {"font": {"color": "white"}, "group": "Marketing", "id": "EMP4450", "label": "Mia", "shape": "dot", "title": "Team: Marketing\nDivision: Asia Pacific"}, {"font": {"color": "white"}, "group": "Finance", "id": "EMP9280", "label": "Chiara", "shape": "dot", "title": "Team: Finance\nDivision: Asia Pacific"}, {"font": {"color": "white"}, "group": "Finance", "id": "EMP5533", "label": "Yuki", "shape": "dot", "title": "Team: Finance\nDivision: North America"}, {"font": {"color": "white"}, "group": "Sales", "id": "EMP3647", "label": "Soraya", "shape": "dot", "title": "Team: Sales\nDivision: Latin America"}, {"font": {"color": "white"}, "group": "HR", "id": "EMP2832", "label": "Raj", "shape": "dot", "title": "Team: HR\nDivision: Europe"}, {"font": {"color": "white"}, "group": "Marketing", "id": "EMP8041", "label": "Diego", "shape": "dot", "title": "Team: Marketing\nDivision: North America"}, {"font": {"color": "white"}, "group": "Marketing", "id": "EMP6862", "label": "Mei", "shape": "dot", "title": "Team: Marketing\nDivision: Europe"}, {"font": {"color": "white"}, "group": "Marketing", "id": "EMP3532", "label": "Olga", "shape": "dot", "title": "Team: Marketing\nDivision: Europe"}, {"font": {"color": "white"}, "group": "Sales", "id": "EMP1406", "label": "Ingrid", "shape": "dot", "title": "Team: Sales\nDivision: Asia Pacific"}, {"font": {"color": "white"}, "group": "Finance", "id": "EMP5371", "label": "Kwame", "shape": "dot", "title": "Team: Finance\nDivision: North America"}, {"font": {"color": "white"}, "group": "Engineering", "id": "EMP4269", "label": "Leila", "shape": "dot", "title": "Team: Engineering\nDivision: Asia Pacific"}, {"font": {"color": "white"}, "group": "Sales", "id": "EMP1387", "label": "Rahul", "shape": "dot", "title": "Team: Sales\nDivision: Europe"}, {"font": {"color": "white"}, "group": "Marketing", "id": "EMP2137", "label": "Emilia", "shape": "dot", "title": "Team: Marketing\nDivision: Asia Pacific"}, {"font": {"color": "white"}, "group": "Finance", "id": "EMP9785", "label": "Astrid", "shape": "dot", "title": "Team: Finance\nDivision: North America"}, {"font": {"color": "white"}, "group": "Marketing", "id": "EMP5349", "label": "Yuki", "shape": "dot", "title": "Team: Marketing\nDivision: North America"}, {"font": {"color": "white"}, "group": "Marketing", "id": "EMP8149", "label": "Luca", "shape": "dot", "title": "Team: Marketing\nDivision: Global"}, {"font": {"color": "white"}, "group": "Engineering", "id": "EMP5173", "label": "Yuki", "shape": "dot", "title": "Team: Engineering\nDivision: Latin America"}, {"font": {"color": "white"}, "group": "HR", "id": "EMP6967", "label": "Zara", "shape": "dot", "title": "Team: HR\nDivision: North America"}, {"font": {"color": "white"}, "group": "HR", "id": "EMP3041", "label": "Hiroshi", "shape": "dot", "title": "Team: HR\nDivision: Asia Pacific"}, {"font": {"color": "white"}, "group": "Marketing", "id": "EMP6344", "label": "Aaliyah", "shape": "dot", "title": "Team: Marketing\nDivision: Asia Pacific"}, {"font": {"color": "white"}, "group": "Sales", "id": "EMP7888", "label": "Rahul", "shape": "dot", "title": "Team: Sales\nDivision: Latin America"}, {"font": {"color": "white"}, "group": "Finance", "id": "EMP5930", "label": "Aaliyah", "shape": "dot", "title": "Team: Finance\nDivision: Global"}, {"font": {"color": "white"}, "group": "Marketing", "id": "EMP4443", "label": "Zara", "shape": "dot", "title": "Team: Marketing\nDivision: Global"}, {"font": {"color": "white"}, "group": "Finance", "id": "EMP8618", "label": "Mateo", "shape": "dot", "title": "Team: Finance\nDivision: Latin America"}, {"font": {"color": "white"}, "group": "HR", "id": "EMP3780", "label": "Rahul", "shape": "dot", "title": "Team: HR\nDivision: North America"}, {"font": {"color": "white"}, "group": "HR", "id": "EMP2530", "label": "Thabo", "shape": "dot", "title": "Team: HR\nDivision: Europe"}, {"font": {"color": "white"}, "group": "Sales", "id": "EMP3414", "label": "Liam", "shape": "dot", "title": "Team: Sales\nDivision: North America"}, {"font": {"color": "white"}, "group": "Engineering", "id": "EMP8461", "label": "Magnus", "shape": "dot", "title": "Team: Engineering\nDivision: Global"}, {"font": {"color": "white"}, "group": "Finance", "id": "EMP9099", "label": "Aaliyah", "shape": "dot", "title": "Team: Finance\nDivision: Europe"}, {"font": {"color": "white"}, "group": "Finance", "id": "EMP2746", "label": "Emilia", "shape": "dot", "title": "Team: Finance\nDivision: Latin America"}, {"font": {"color": "white"}, "group": "Sales", "id": "EMP1822", "label": "Freya", "shape": "dot", "title": "Team: Sales\nDivision: Europe"}, {"font": {"color": "white"}, "group": "Engineering", "id": "EMP8612", "label": "Rahul", "shape": "dot", "title": "Team: Engineering\nDivision: Global"}, {"font": {"color": "white"}, "group": "HR", "id": "EMP8251", "label": "Anika", "shape": "dot", "title": "Team: HR\nDivision: Global"}, {"font": {"color": "white"}, "group": "HR", "id": "EMP3607", "label": "Soraya", "shape": "dot", "title": "Team: HR\nDivision: Latin America"}, {"font": {"color": "white"}, "group": "Marketing", "id": "EMP5543", "label": "Emilia", "shape": "dot", "title": "Team: Marketing\nDivision: Global"}]);
+                  edges = new vis.DataSet([{"arrows": "to", "from": "EMP5012", "to": "EMP2824"}, {"arrows": "to", "from": "EMP2679", "to": "EMP5012"}, {"arrows": "to", "from": "EMP7912", "to": "EMP5012"}, {"arrows": "to", "from": "EMP4582", "to": "EMP2824"}, {"arrows": "to", "from": "EMP1434", "to": "EMP4582"}, {"arrows": "to", "from": "EMP4611", "to": "EMP1434"}, {"arrows": "to", "from": "EMP1106", "to": "EMP2824"}, {"arrows": "to", "from": "EMP7924", "to": "EMP1106"}, {"arrows": "to", "from": "EMP4527", "to": "EMP1106"}, {"arrows": "to", "from": "EMP2519", "to": "EMP2824"}, {"arrows": "to", "from": "EMP6881", "to": "EMP2519"}, {"arrows": "to", "from": "EMP1711", "to": "EMP2519"}, {"arrows": "to", "from": "EMP7201", "to": "EMP2824"}, {"arrows": "to", "from": "EMP5803", "to": "EMP7201"}, {"arrows": "to", "from": "EMP4150", "to": "EMP7201"}, {"arrows": "to", "from": "EMP5741", "to": "EMP7201"}, {"arrows": "to", "from": "EMP8428", "to": "EMP1106"}, {"arrows": "to", "from": "EMP4432", "to": "EMP4582"}, {"arrows": "to", "from": "EMP9751", "to": "EMP2519"}, {"arrows": "to", "from": "EMP5422", "to": "EMP1106"}, {"arrows": "to", "from": "EMP1916", "to": "EMP5803"}, {"arrows": "to", "from": "EMP2084", "to": "EMP7924"}, {"arrows": "to", "from": "EMP7482", "to": "EMP5012"}, {"arrows": "to", "from": "EMP5040", "to": "EMP4432"}, {"arrows": "to", "from": "EMP7543", "to": "EMP4582"}, {"arrows": "to", "from": "EMP2489", "to": "EMP2519"}, {"arrows": "to", "from": "EMP7916", "to": "EMP7912"}, {"arrows": "to", "from": "EMP9669", "to": "EMP1106"}, {"arrows": "to", "from": "EMP9797", "to": "EMP1916"}, {"arrows": "to", "from": "EMP5808", "to": "EMP7543"}, {"arrows": "to", "from": "EMP9201", "to": "EMP7201"}, {"arrows": "to", "from": "EMP9317", "to": "EMP5803"}, {"arrows": "to", "from": "EMP9837", "to": "EMP4582"}, {"arrows": "to", "from": "EMP9005", "to": "EMP6881"}, {"arrows": "to", "from": "EMP1949", "to": "EMP4582"}, {"arrows": "to", "from": "EMP2133", "to": "EMP5803"}, {"arrows": "to", "from": "EMP3705", "to": "EMP7916"}, {"arrows": "to", "from": "EMP9835", "to": "EMP9669"}, {"arrows": "to", "from": "EMP7118", "to": "EMP5808"}, {"arrows": "to", "from": "EMP2049", "to": "EMP7912"}, {"arrows": "to", "from": "EMP1117", "to": "EMP1711"}, {"arrows": "to", "from": "EMP9423", "to": "EMP7543"}, {"arrows": "to", "from": "EMP8744", "to": "EMP3705"}, {"arrows": "to", "from": "EMP2588", "to": "EMP7482"}, {"arrows": "to", "from": "EMP8651", "to": "EMP9835"}, {"arrows": "to", "from": "EMP1993", "to": "EMP7201"}, {"arrows": "to", "from": "EMP4116", "to": "EMP7912"}, {"arrows": "to", "from": "EMP5563", "to": "EMP8651"}, {"arrows": "to", "from": "EMP1828", "to": "EMP8651"}, {"arrows": "to", "from": "EMP7658", "to": "EMP7912"}, {"arrows": "to", "from": "EMP3697", "to": "EMP5422"}, {"arrows": "to", "from": "EMP5673", "to": "EMP1949"}, {"arrows": "to", "from": "EMP3536", "to": "EMP5803"}, {"arrows": "to", "from": "EMP6138", "to": "EMP9005"}, {"arrows": "to", "from": "EMP1931", "to": "EMP1711"}, {"arrows": "to", "from": "EMP4853", "to": "EMP1711"}, {"arrows": "to", "from": "EMP2343", "to": "EMP2489"}, {"arrows": "to", "from": "EMP6147", "to": "EMP7543"}, {"arrows": "to", "from": "EMP8491", "to": "EMP5012"}, {"arrows": "to", "from": "EMP2200", "to": "EMP2084"}, {"arrows": "to", "from": "EMP6718", "to": "EMP4432"}, {"arrows": "to", "from": "EMP8179", "to": "EMP7118"}, {"arrows": "to", "from": "EMP5905", "to": "EMP4150"}, {"arrows": "to", "from": "EMP2753", "to": "EMP4611"}, {"arrows": "to", "from": "EMP4450", "to": "EMP5808"}, {"arrows": "to", "from": "EMP9280", "to": "EMP7201"}, {"arrows": "to", "from": "EMP5533", "to": "EMP5741"}, {"arrows": "to", "from": "EMP3647", "to": "EMP4116"}, {"arrows": "to", "from": "EMP2832", "to": "EMP2519"}, {"arrows": "to", "from": "EMP8041", "to": "EMP4432"}, {"arrows": "to", "from": "EMP6862", "to": "EMP5673"}, {"arrows": "to", "from": "EMP3532", "to": "EMP6862"}, {"arrows": "to", "from": "EMP1406", "to": "EMP4116"}, {"arrows": "to", "from": "EMP5371", "to": "EMP3536"}, {"arrows": "to", "from": "EMP4269", "to": "EMP8428"}, {"arrows": "to", "from": "EMP1387", "to": "EMP3705"}, {"arrows": "to", "from": "EMP2137", "to": "EMP1949"}, {"arrows": "to", "from": "EMP9785", "to": "EMP7201"}, {"arrows": "to", "from": "EMP5349", "to": "EMP4450"}, {"arrows": "to", "from": "EMP8149", "to": "EMP1434"}, {"arrows": "to", "from": "EMP5173", "to": "EMP1106"}, {"arrows": "to", "from": "EMP6967", "to": "EMP2489"}, {"arrows": "to", "from": "EMP3041", "to": "EMP2832"}, {"arrows": "to", "from": "EMP6344", "to": "EMP6718"}, {"arrows": "to", "from": "EMP7888", "to": "EMP3647"}, {"arrows": "to", "from": "EMP5930", "to": "EMP7201"}, {"arrows": "to", "from": "EMP4443", "to": "EMP8179"}, {"arrows": "to", "from": "EMP8618", "to": "EMP9797"}, {"arrows": "to", "from": "EMP3780", "to": "EMP6138"}, {"arrows": "to", "from": "EMP2530", "to": "EMP6138"}, {"arrows": "to", "from": "EMP3414", "to": "EMP7912"}, {"arrows": "to", "from": "EMP8461", "to": "EMP4527"}, {"arrows": "to", "from": "EMP9099", "to": "EMP5741"}, {"arrows": "to", "from": "EMP2746", "to": "EMP9201"}, {"arrows": "to", "from": "EMP1822", "to": "EMP2679"}, {"arrows": "to", "from": "EMP8612", "to": "EMP2084"}, {"arrows": "to", "from": "EMP8251", "to": "EMP4853"}, {"arrows": "to", "from": "EMP3607", "to": "EMP2343"}, {"arrows": "to", "from": "EMP5543", "to": "EMP3532"}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {"nodes": {"font": {"size": 12}}, "edges": {"color": {"inherit": true}, "smooth": false}, "physics": {"hierarchicalRepulsion": {"centralGravity": 0}, "minVelocity": 0.75, "solver": "hierarchicalRepulsion"}};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>
