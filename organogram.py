@@ -17,6 +17,9 @@ if os.path.exists(pickle_path):
 G = nx.DiGraph()
 
 # Add nodes to the graph
+# for _, row in df.iterrows():
+#     G.add_node(row['ID'], name=row['name'], team=row['team'], division=row['division'])
+
 for _, row in df.iterrows():
     G.add_node(row['ID'], name=row['name'], team=row['team'], division=row['division'])
 
@@ -40,7 +43,7 @@ for node, data in G.nodes(data=True):
     net.add_node(node, 
                  label=data['name'], 
                  title=f"Team: {data['team']}\nDivision: {data['division']}", 
-                 color="blue",  # Set node color based on team
+                 color=color_map[data['team']],  # Set node color based on team
                  group=data['team'])
 
 # Add edges to the Pyvis network
@@ -74,4 +77,4 @@ var options = {
 
 
 # Save the interactive visualization
-net.show("org.html", notebook=False)
+net.show("index.html", notebook=False)

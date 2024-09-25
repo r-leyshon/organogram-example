@@ -4,6 +4,7 @@ import pandas as pd
 import random
 
 # Set the random seed for reproducibility
+N = 100
 random.seed(42)
 
 # Create lists of sample names, teams, and divisions
@@ -68,7 +69,7 @@ for team, roles in teams.items():
 
 
 # Fill remaining positions
-while len(data) < 50:
+while len(data) < N:
     team, roles = random.choice(list(teams.items()))
     if team == "Executive":
         continue  # Skip Executive team as we don't want to add more CEOs
@@ -94,8 +95,8 @@ while len(data) < 50:
     
     data.append([id, name, team, role, division, manager_name, manager_id])
 
-# Ensure we have exactly 50 employees
-while len(data) > 50:
+# Ensure we have exactly N employees
+while len(data) > N:
     non_leadership = [emp for emp in data if not emp[3].endswith("Director") and emp[3] not in ["CEO", "CTO", "CFO"]]
     if non_leadership:
         data.remove(random.choice(non_leadership))
